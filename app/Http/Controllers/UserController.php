@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -15,9 +16,9 @@ class UserController extends Controller
         $this->model = $user;
     }
 
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
         return $this->model->create([
             'name' => $data['name'],
@@ -26,9 +27,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    public function login(LoginUserRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
         $user = $this->model->where('email', '=', $data['email'])->firstOrFail();
         
