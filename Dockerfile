@@ -13,7 +13,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql zip \
     && pecl install mongodb \
-    && docker-php-ext-enable mongodb
+    && docker-php-ext-enable mongodb \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 # Habilitar o mod_rewrite do Apache
 RUN a2enmod rewrite

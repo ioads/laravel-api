@@ -22,6 +22,14 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
