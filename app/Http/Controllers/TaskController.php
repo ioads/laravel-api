@@ -6,8 +6,8 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Interfaces\TaskRepositoryInterface;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -43,6 +43,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        Gate::authorize('show', $task);
+        
         return response()->json([
             'data' => $this->taskRepository->show($task)
         ]);
@@ -53,6 +55,8 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
+        Gate::authorize('update', $task);
+
         return response()->json([
             'data' => $this->taskRepository->update($request->validated(), $task)
         ]);
@@ -63,6 +67,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        Gate::authorize('delete', $task);
+
         return response()->json([
             'data' => $this->taskRepository->destroy($task)
         ]);
