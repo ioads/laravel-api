@@ -34,7 +34,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         return response()->json([
-            'data' => $this->taskRepository->store($request->validated()),
+            'data' => json_decode($this->taskRepository->store($request->validated()), true),
         ], Response::HTTP_CREATED);
     }
 

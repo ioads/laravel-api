@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Interfaces\TaskRepositoryInterface;
 use App\Models\Task;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class TaskRepository implements TaskRepositoryInterface
 {
@@ -16,7 +18,17 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function all()
     {
-        return auth()->user()->tasks;
+        $user = auth()->user();
+        $key = 'task:user:'.$user->id;
+        
+        $cache = Redis::get($key);
+        if($cache) {
+            return json_decode($cache, true);
+        }
+
+        $tasks = $user->tasks;
+        Redis::set($key, $tasks);
+        return $tasks;
     }
 
     public function show(Task $task)
