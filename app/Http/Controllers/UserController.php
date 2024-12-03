@@ -4,46 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
-use App\Models\User;
+use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-    protected $model;
+    protected UserRepositoryInterface $userRepository;
 
-    public function __construct(User $user)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
-        $this->model = $user;
+        $this->userRepository = $userRepository;
     }
 
     public function register(RegisterUserRequest $request)
     {
-        $data = $request->validated();
-
-        return $this->model->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        return response()->json([
+            'data' => $this->userRepository->register($request->validated())
         ]);
     }
 
     public function login(LoginUserRequest $request)
     {
-        $data = $request->validated();
-
-        $user = $this->model->where('email', '=', $data['email'])->firstOrFail();
-        
-        if(!Hash::check($data['password'], $user->password)){
-            Log::info('User {id} failed to login.', ['id' => $user->id]);
-            
-            return response()->json([
-                'message' => 'Credenciais inválidas.'
-            ], 401);
-        }
-        
         return response()->json([
-            'access_token' => $user->createToken($user->name.'-AuthToken')->plainTextToken
+            'data' => $this->userRepository->login($request->validated())
+        ]);
+    }
+
+    public function logout()
+    {
+        return response()->json([
+            'data' => $this->userRepository->logout()
         ]);
     }
 }
