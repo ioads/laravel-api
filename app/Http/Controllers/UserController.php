@@ -6,6 +6,7 @@ use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -34,6 +35,8 @@ class UserController extends Controller
         $user = $this->model->where('email', '=', $data['email'])->firstOrFail();
         
         if(!Hash::check($data['password'], $user->password)){
+            Log::info('User {id} failed to login.', ['id' => $user->id]);
+            
             return response()->json([
                 'message' => 'Credenciais inválidas.'
             ], 401);
