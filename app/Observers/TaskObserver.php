@@ -2,7 +2,9 @@
 
 namespace App\Observers;
 
+use App\Events\TaskNotification;
 use App\Models\Task;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class TaskObserver
@@ -13,6 +15,7 @@ class TaskObserver
     public function created(Task $task): void
     {
         $this->clearUserCache($task->user_id);
+        $this->sendNotification('Nova tarefa criada!');
     }
 
     /**
@@ -34,5 +37,11 @@ class TaskObserver
     public function clearUserCache($userId)
     {
         return Redis::del('task:user:' . $userId);
+    }
+
+    public function sendNotification($message)
+    {
+        Log::info('Notificação enviada: {message}', ['message' => $message]);
+        broadcast(new TaskNotification($message));
     }
 }
