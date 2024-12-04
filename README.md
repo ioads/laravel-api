@@ -3,15 +3,22 @@
 
 ## Instruções
 1. Crie um arquivo .env a partir do .env.example utilizando o comando abaixo:
+
 ``cp .env.example .env``
+
 2. Inicialize os containers
+
 ``docker-compose up``
+
 3. Acesse o container do laravel para executar as migrations
+
 ``docker-compose exec -it laravel-app bash``
+
 ``php artisan migrate``
 
 ## Documentação da API
 A documentação da API pode ser visualizada na rota:
+
 ``http://localhost:8080/api/docs``
 
 ## **CRUD Tasks**
