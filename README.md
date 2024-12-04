@@ -10,9 +10,11 @@
 
 ``docker-compose up``
 
-3. Acesse o container do laravel para executar as migrations
+3. Acesse o container do laravel
 
 ``docker-compose exec -it laravel-app bash``
+
+4. Execute as migrations
 
 ``php artisan migrate``
 
