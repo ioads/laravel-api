@@ -24,10 +24,9 @@ class TaskRepository implements TaskRepositoryInterface
         if($cache) {
             return json_decode($cache, true);
         }
-
         $tasks = $user->tasks;
         Redis::set($key, $tasks);
-        return $tasks;
+        return json_decode($tasks, true);
     }
 
     public function show(Task $task)
