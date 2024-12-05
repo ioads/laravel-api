@@ -22,12 +22,6 @@
 
 ``php artisan migrate``
 
-5. Acesse a pasta vendor/laravel/sanctum/src/PersonalAccessToken.php
-
-6. Substitua a linha que é utilizada o PersonalAccessToken pelo código abaixo
-
-``use MongoDB\Laravel\Eloquent\Model;``
-
 ## Documentação da API
 A documentação da API pode ser visualizada na rota:
 
