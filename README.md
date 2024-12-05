@@ -14,9 +14,19 @@
 
 ``docker-compose exec -it laravel-app bash``
 
+4. Instale as dependencias
+
+``composer install``
+
 4. Execute as migrations
 
 ``php artisan migrate``
+
+5. Acesse a pasta vendor/laravel/sanctum/src/PersonalAccessToken.php
+
+6. Substitua a linha que é utilizada o PersonalAccessToken pelo código abaixo
+
+``use MongoDB\Laravel\Eloquent\Model;``
 
 ## Documentação da API
 A documentação da API pode ser visualizada na rota:
