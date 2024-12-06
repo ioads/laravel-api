@@ -23,6 +23,11 @@ RUN a2enmod rewrite
 # Copiar arquivos do projeto para o container
 COPY . /var/www/html/
 
+# Copy custom Apache configurations and include them in the main configuration
+COPY docker/default.conf /etc/apache2/sites-available/000-default.conf
+COPY docker/default.conf /etc/apache2/conf-available/apache2.conf
+RUN echo "IncludeOptional /etc/apache2/conf-available/apache2.conf" >> /etc/apache2/apache2.conf
+
 # Definir diretório de trabalho no container
 WORKDIR /var/www/html
 
